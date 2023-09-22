@@ -1,0 +1,13 @@
+{
+	admin 127.0.0.1:8088
+}
+
+:9090 {
+	reverse_proxy {
+		to :8080
+		header_up X-Arena-User "jane"
+		header_up Arena-Scope "Namespaced"
+	}
+
+	rewrite /api/* ?{query}&namespace=janedoe&adtype=dataset&adname=animal&adversion=default
+}

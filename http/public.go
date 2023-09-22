@@ -35,6 +35,14 @@ var withHashFile = func(fn handleFunc) handleFunc {
 
 		d.user = user
 
+		d.user.Fs = afero.NewBasePathFs(afero.NewOsFs(),
+			filepath.Join(
+				link.ScopeMeta.Namespace,
+				link.ScopeMeta.ArenaDataType,
+				link.ScopeMeta.ArenaDataName,
+				link.ScopeMeta.ArenaDataVersion,
+			))
+
 		file, err := files.NewFileInfo(files.FileOptions{
 			Fs:         d.user.Fs,
 			Path:       link.Path,

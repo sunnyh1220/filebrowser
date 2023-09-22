@@ -87,7 +87,8 @@ func withUser(fn handleFunc) handleFunc {
 		if err != nil {
 			return http.StatusInternalServerError, err
 		}
-		return fn(w, r, d)
+		//return fn(w, r, d)
+		return scopeInner(fn, w, r, d)
 	}
 }
 

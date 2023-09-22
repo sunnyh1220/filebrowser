@@ -14,6 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/filebrowser/filebrowser/v2/errors"
+	"github.com/filebrowser/filebrowser/v2/scope"
 	"github.com/filebrowser/filebrowser/v2/share"
 )
 
@@ -143,6 +144,12 @@ var sharePostHandler = withPermShare(func(w http.ResponseWriter, r *http.Request
 		UserID:       d.user.ID,
 		PasswordHash: string(hash),
 		Token:        token,
+		ScopeMeta: scope.Metadata{
+			Namespace:        r.URL.Query().Get("namespace"),
+			ArenaDataType:    r.URL.Query().Get("adtype"),
+			ArenaDataName:    r.URL.Query().Get("adname"),
+			ArenaDataVersion: r.URL.Query().Get("adversion"),
+		},
 	}
 
 	if err := d.store.Share.Save(s); err != nil {
